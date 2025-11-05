@@ -1,0 +1,279 @@
+/* ===== COMMON SCBS THEME ===== */
+body {
+  font-family: "Poppins", Arial, sans-serif;
+  background: url("SCBSp2.jpg") no-repeat center center/cover; /* Background image */
+  background-attachment: fixed; /* Parallax smooth scroll */
+  color: #111; /* Darker text for high contrast */
+  text-align: center;
+  margin: 0;
+  padding: 100px 20px 120px; /* top for navbar, bottom for footer */
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-weight: 500;
+}
+
+/* ===== BLUR OVERLAY EFFECT ===== */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
+}
+
+/* ===== HEADINGS ===== */
+h1, h2 {
+  color: #000;
+  margin-bottom: 15px;
+  font-weight: 800;
+  text-shadow: 1px 1px 3px rgba(255,255,255,0.6);
+}
+
+/* ===== CONTAINER & CARD ===== */
+.container, .card {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  padding: 30px;
+  margin: 60px auto;
+  max-width: 700px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+  color: #111;
+}
+
+/* ===== BUTTONS ===== */
+button, a button {
+  background-color: #00b894;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+button:hover, a button:hover {
+  background-color: #00916e;
+  transform: scale(1.05);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+  font-weight: 700;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #000;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(255,255,255,0.8);
+}
+
+.nav-links a {
+  color: #000;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #0066cc;
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: rgba(255, 255, 255, 0.4);
+  color: #000;
+  text-align: center;
+  padding: 12px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid rgba(0,0,0,0.2);
+  font-size: 1rem;
+  backdrop-filter: blur(8px);
+  font-weight: 700;
+}
+
+/* ===== FORM STYLING ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+label {
+  text-align: left;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #000;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 8px;
+  outline: none;
+  margin-top: 5px;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.9);
+  color: #000;
+  font-weight: 600;
+}
+
+/* ===== TABLE STYLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  color: #000;
+  background: rgba(255,255,255,0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  font-weight: 600;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+th {
+  background: rgba(0, 0, 0, 0.15);
+  color: #000;
+  font-weight: 800;
+}
+
+td {
+  font-weight: 600;
+}
+
+tr:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+/* ===== TOTAL COLLECTION BOX ===== */
+.totalBox {
+  background: rgba(255,255,255,0.3);
+  margin: 25px auto;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  display: inline-block;
+  backdrop-filter: blur(8px);
+  color: #000;
+  font-weight: 700;
+}
+
+/* ===== ABOUT PAGE IMAGE FIX ===== */
+.about-img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+/* ===== TEXT VISIBILITY BOOST ===== */
+p, td, label, input, button, footer, nav a {
+  text-shadow: 0.5px 0.5px 2px rgba(255,255,255,0.8);
+}
+
+/* ===== 📱 RESPONSIVE DESIGN (Mobile Friendly) ===== */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    padding: 10px 20px;
+    text-align: center;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+    margin: 5px;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .container, .card {
+    width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  button, a button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 1rem;
+  }
+
+  body {
+    padding: 90px 10px 110px;
+  }
+
+  h1, h2 {
+    font-size: 1.3rem;
+  }
+
+  footer {
+    font-size: 0.8rem;
+    padding: 10px 0;
+  }
+}

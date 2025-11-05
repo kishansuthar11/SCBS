@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>सदस्य हटाएँ | श्री चारभुजा बचत समिति</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <div class="logo">SCBS</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="SCBS.html">Members</a>
+      <a href="Loan.html">Loan Tracker</a>
+      <a href="addMember.html">Add Member</a>
+      <a href="remove.html">Remove</a>
+      <a href="memberDetails.html">Member Details</a>
+      <a href="about.html">About</a>
+      <a href="#">about</a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CARD ===== -->
+  <div class="card" style="margin-top:100px;">
+    <h2>❌ सदस्य हटाएँ</h2>
+    <p style="font-size:1.1rem;">कृपया वह सदस्य चुनें जिसे आप समिति से हटाना चाहते हैं।</p>
+
+    <div id="memberSection" style="margin-top:20px;"></div>
+
+    <div id="noMembers" style="display:none; margin-top:20px;">
+      <p>कोई सदस्य नहीं मिला। कृपया पहले सदस्य जोड़ें।</p>
+      <a href="addMember.html"><button>➕ नया सदस्य जोड़ें</button></a>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2011, Made with ❤️ Love. <br>Every month 15th.</p>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    const memberSection = document.getElementById('memberSection');
+    const noMembersDiv = document.getElementById('noMembers');
+    let members = JSON.parse(localStorage.getItem('SCBSMembers')) || [];
+
+    // अगर कोई सदस्य नहीं है
+    if (members.length === 0) {
+      noMembersDiv.style.display = 'block';
+    } else {
+      const table = document.createElement('table');
+      table.innerHTML = `
+        <thead>
+          <tr>
+            <th>क्रमांक</th>
+            <th>सदस्य का नाम</th>
+            <th>पिता का नाम</th>
+            <th>मोबाइल</th>
+            <th>कार्रवाई</th>
+          </tr>
+        </thead>
+        <tbody id="memberBody"></tbody>
+      `;
+      memberSection.appendChild(table);
+
+      const tbody = document.getElementById('memberBody');
+      let index = 1;
+
+      members.forEach((m, i) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index++}</td>
+          <td>${m.name}</td>
+          <td>${m.father}</td>
+          <td>${m.mobile}</td>
+          <td>
+            <button style="background-color:#e74c3c; color:white; font-weight:bold;" onclick="removeMember(${i})">
+              हटाएँ
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // ✅ सदस्य हटाने का फंक्शन
+    function removeMember(index) {
+      const confirmDelete = confirm("क्या आप वाकई इस सदस्य को समिति से हटाना चाहते हैं?");
+      if (confirmDelete) {
+        const removedMember = members[index];
+        const removedName = removedMember.name.trim().toLowerCase();
+
+        // सदस्य को मुख्य सूची से हटाओ
+        members.splice(index, 1);
+        localStorage.setItem('SCBSMembers', JSON.stringify(members));
+
+        // 🔥 selectedMember हटाओ अगर वही सदस्य है
+        const selected = JSON.parse(localStorage.getItem("selectedMember"));
+        if (selected && selected.name.trim().toLowerCase() === removedName) {
+          localStorage.removeItem("selectedMember");
+          console.log("Deleted member removed from selectedMember.");
+        }
+
+        // ✅ Loan Cache भी हटाओ
+        if (localStorage.getItem("LoanData")) {
+          localStorage.removeItem("LoanData");
+        }
+
+        alert("✅ सदस्य सफलतापूर्वक हटा दिया गया!");
+        setTimeout(() => location.reload(), 500);
+      }
+    }
+
+    // 🧹 अगर selectedMember orphan है (यानी सदस्य हटा दिया गया)
+    window.addEventListener("load", () => {
+      const selected = JSON.parse(localStorage.getItem("selectedMember"));
+      if (selected) {
+        const memberExists = members.some(
+          m => m.name.trim().toLowerCase() === selected.name.trim().toLowerCase()
+        );
+        if (!memberExists) {
+          localStorage.removeItem("selectedMember");
+          console.log("Orphan selectedMember cleared automatically ✅");
+        }
+      }
+    });
+  </script>
+</body>
+</html>

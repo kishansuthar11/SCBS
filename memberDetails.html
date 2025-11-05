@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCBS || Member Details</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <div class="logo">SCBS</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="SCBS.html">Members</a>
+      <a href="Loan.html">Loan Tracker</a>
+      <a href="addMember.html">Add Member</a>
+      <a href="remove.html">Remove</a>
+      <a href="memberDetails.html">Member Details</a>
+      <a href="about.html">About</a>
+      <a href="#">about</a>
+    </div>
+  </nav>
+
+  <!-- ===== MEMBER TABLE ===== -->
+  <div class="card" style="margin-top:100px;">
+    <h2>सभी सदस्य विवरण</h2>
+    <table id="memberTable">
+      <thead>
+        <tr>
+          <th>क्रमांक</th>
+          <th>सदस्य का नाम</th>
+          <th>पिता का नाम</th>
+          <th>मोबाइल नंबर</th>
+          <th>शेयर राशि (₹)</th>
+          <th>ऋण राशि (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="memberBody"></tbody>
+    </table>
+
+    <div id="noMembers" style="display:none; margin-top:20px;">
+      <p>कोई सदस्य नहीं मिला। कृपया पहले नया सदस्य जोड़ें।</p>
+      <a href="addMember.html"><button>नया सदस्य जोड़ें</button></a>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2011, Made with ❤️ Love.<br>Every month 15th.</p>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    const members = JSON.parse(localStorage.getItem('SCBSMembers')) || [];
+    const tbody = document.getElementById('memberBody');
+    const noMembersDiv = document.getElementById('noMembers');
+
+    if (members.length === 0) {
+      noMembersDiv.style.display = 'block';
+      document.getElementById('memberTable').style.display = 'none';
+    } else {
+      let index = 1;
+      members.forEach(m => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${index++}</td>
+          <td>${m.name}</td>
+          <td>${m.father}</td>
+          <td>${m.mobile}</td>
+          <td>₹${m.share || 500}</td>
+          <td>${m.loan ? "₹" + m.loan : "—"}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCBS || SCBS Members</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <div class="logo">SCBS</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="SCBS.html">Members</a>
+      <a href="Loan.html">Loan Tracker</a>
+      <a href="addMember.html">Add Member</a>
+      <a href="remove.html">Remove</a>
+      <a href="memberDetails.html">Member Details</a>
+      <a href="about.html">About</a>
+      <a href="#">about</a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container" style="margin-top:100px;">
+    <h1>श्री चारभुजा बचत समिति के सदस्य</h1>
+    <p style="color:#444; font-style:italic;">नया सदस्य जोड़ने के लिए “Add Member” पेज पर जाएँ।</p>
+
+    <table id="memberTable">
+      <thead>
+        <tr>
+          <th>सदस्य नाम</th>
+          <th>पिता का नाम</th>
+          <th>शेयर राशि (₹)</th>
+          <th>ऋण (₹)</th>
+          <th>किस्त (₹)</th>
+          <th>ब्याज (₹)</th>
+          <th>कुल (₹)</th>
+        </tr>
+      </thead>
+      <tbody id="memberBody"></tbody>
+    </table>
+
+    <div id="totalCollection" class="totalBox">
+       इस महीने की कुल वसूली: ₹<span id="collectionAmount">0</span>
+    </div>
+
+   
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2011, Made with ❤️ Love. <br>Every month 15th.</p>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    const interestRate = 1; // ब्याज दर (1%)
+    const tableBody = document.getElementById("memberBody");
+    const totalAmountSpan = document.getElementById("collectionAmount");
+
+    // 🔹 Load Members from localStorage
+    const members = JSON.parse(localStorage.getItem("SCBSMembers")) || [];
+
+    // 🔹 If No Members Found
+    if (members.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="7" style="padding:20px; color:#555;">
+            कोई सदस्य नहीं जोड़ा गया है। कृपया "Add Member" पेज से नया सदस्य जोड़ें।
+          </td>
+        </tr>`;
+    } else {
+      // 🔹 Render Members
+      members.forEach((member, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${member.name}</td>
+          <td>${member.father}</td>
+          <td>₹${(member.share || 500).toFixed(2)}</td>
+          <td>${member.loan ? '₹' + member.loan.toFixed(2) : '-'}</td>
+          <td><input type="number" id="inst${index}" placeholder="0" min="0" oninput="updateValues()"></td>
+          <td id="interest${index}">₹0.00</td>
+          <td id="total${index}">₹${(member.share || 500).toFixed(2)}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    // 🔹 Update Total Calculations
+    function updateValues() {
+      let grandTotal = 0;
+      members.forEach((member, index) => {
+        const installmentInput = document.getElementById(`inst${index}`);
+        const interestCell = document.getElementById(`interest${index}`);
+        const totalCell = document.getElementById(`total${index}`);
+
+        if (!installmentInput) return; // skip if no input (no members)
+
+        const installment = parseFloat(installmentInput.value) || 0;
+        const interest = member.loan > 0 ? (member.loan * interestRate) / 100 : 0;
+        const total = (member.share || 500) + installment + interest;
+
+        interestCell.textContent = `₹${interest.toFixed(2)}`;
+        totalCell.textContent = `₹${total.toFixed(2)}`;
+        grandTotal += total;
+      });
+
+      totalAmountSpan.textContent = grandTotal.toFixed(2);
+      localStorage.setItem("SCBS_TotalCollection", grandTotal); // Save total collection
+    }
+  </script>
+</body>
+</html>

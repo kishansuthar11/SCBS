@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SCBS || Add Member</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <div class="logo">SCBS</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="SCBS.html">Members</a>
+      <a href="Loan.html">Loan Tracker</a>
+      <a href="addMember.html" class="active">Add Member</a>
+      <a href="remove.html">Remove</a>
+      <a href="memberDetails.html">Member Details</a>
+      <a href="about.html">About</a>
+      <a href="#">about</a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="container" style="margin-top:100px;">
+    <h2>नया सदस्य जोड़ें</h2>
+    <p style="color:#444; font-style:italic; margin-bottom:20px;">कृपया नया सदस्य जोड़ने के लिए नीचे दी गई जानकारी भरें।</p>
+
+    <form onsubmit="saveMember(event)">
+      <label for="name">सदस्य का नाम:</label>
+      <input type="text" id="name" placeholder="Enter member name" required>
+
+      <label for="father">पिता का नाम:</label>
+      <input type="text" id="father" placeholder="Enter father's name" required>
+
+      <label for="mobile">मोबाइल नंबर:</label>
+      <input type="tel" id="mobile" pattern='[0-9]{10}' maxlength="10" placeholder="Enter 10-digit mobile number" required>
+
+      <button type="submit">Add Member</button>
+    </form>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2011, Made with ❤️ Love. <br> Every month 15th.</p>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    function saveMember(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const father = document.getElementById('father').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+
+      if (!name || !father || !mobile) {
+        alert("कृपया सभी फ़ील्ड भरें।");
+        return;
+      }
+
+      const newMember = { 
+        name, 
+        father, 
+        mobile, 
+        share: 500, 
+        loan: 0 
+      };
+
+      // Get existing members or initialize empty array
+      let members = JSON.parse(localStorage.getItem('SCBSMembers')) || [];
+
+      // Check for duplicate mobile number
+      const duplicate = members.find(m => m.mobile === mobile);
+      if (duplicate) {
+        alert("यह सदस्य पहले से मौजूद है!");
+        return;
+      }
+
+      // Save new member
+      members.push(newMember);
+      localStorage.setItem('SCBSMembers', JSON.stringify(members));
+
+      alert("सदस्य सफलतापूर्वक जोड़ा गया!");
+      window.location.href = 'memberDetails.html';
+    }
+  </script>
+</body>
+</html>
